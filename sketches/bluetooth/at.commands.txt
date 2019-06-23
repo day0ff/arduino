@@ -10,7 +10,7 @@ AT+NAME=<Param>	Set module name		Example: AT+NAME=HC-05;	set the module name to 
 AT+NAME?	Check module name	
 AT+RNAME?<Param1>Get the Bluetooth device name
 AT+ROLE=<Param>	Set module mode		0 - Slave 1 - Master 2 - Slave-Loop
-AT+ ROLE?	Check module mode
+AT+ROLE?	Check module mode
 AT+IAC=<Param>	Set GIAC (General Inquire Access Code)	Param: GIAC (Default : 9e8b33)
 AT+IAC		Check GIAC
 AT+PSWD=<Param>	Set PIN code		Example: AT+PSWD="1111"; set PIN code to 1111;	(Default 1234)

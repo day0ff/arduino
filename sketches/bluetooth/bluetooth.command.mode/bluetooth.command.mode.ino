@@ -4,6 +4,8 @@
 // Press and hold the switch (DO NOT RELEASE IT!).
 // Reconnect the +5v connection.
 // In port monitor choose NL & CR option.
+// Use 9600 port on Serial Monitor.
+// For Arduino Nano 3.0 use Tools->Processor->Atmega 328P(Old Bootloader)
 
 SoftwareSerial HC05Module(10, 11); // TXD | RXD
 
