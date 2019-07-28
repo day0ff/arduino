@@ -7,59 +7,29 @@ SoftwareSerial HC05Module(10, 11); // TXD | RXD
 #define PIN 13
 
 CRGB leds[NUM_LEDS];
-byte counter;
 
-const unsigned int TERNON = 13210;
-const unsigned int TERNOFF = 17240;
-const unsigned int RAINBOW = 17970;
-const unsigned int STOP = 5840;
-
-unsigned int state = RAINBOW;
-
-void rainbow() {
-  for (int i = 0; i < NUM_LEDS; i++ ) {
-    leds[i] = CHSV(counter + i * 2, 255, 255);
-  }
-  counter++;
-  FastLED.show();
-  delay(5);
-}
-
-void ternoff() {
-  for (int i = 0; i < NUM_LEDS; i++ ) {
-    leds[i] = CHSV(0, 0, 0);
-  }
-  FastLED.show();
-}
-
-int getStringInt() {
-  String incomingString = HC05Module.readString();
-
+void setLeds(String incomingString) {
   Serial.println(incomingString);
 
-  int stringInt = 0;
+  int strLength = incomingString.length() + 1;
+  char str[strLength] ;
+  incomingString.toCharArray(str, strLength);
 
-  for (int i = 0; incomingString[i] != 0; i++) {
-    stringInt += int(incomingString[i]) * i * 10;
-  };
-
-  Serial.println(stringInt);
-  return stringInt;
-}
-
-void executeCommand(int command) {
-  switch ( command ) {
-    case RAINBOW:
-      state = RAINBOW;
-      rainbow();
-      break;
-    case TERNOFF:
-      if (state != TERNOFF) {
-        ternoff();
-        state = TERNOFF;
-      }
-      break;
+  char * command;
+  command = strtok(str, "#");
+  int index = -1;
+  while (command != NULL) {
+    Serial.println(command);
+    if (index != -1) {
+      char * hsv = strchr(command, ',');
+      Serial.println(hsv[0]);
+      Serial.println(hsv[1]);
+      Serial.println(hsv[2]);
+    }
+    command = strtok(NULL, ":");
+    index++;
   }
+
 }
 
 void setup() {
@@ -73,12 +43,11 @@ void setup() {
 }
 
 void loop() {
-  executeCommand(state);
 
   if (HC05Module.available() > 0)
-    executeCommand(getStringInt());
+    setLeds(HC05Module.readString());
+
 
   if (Serial.available())
     HC05Module.write(Serial.read());
-
 }
