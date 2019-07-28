@@ -11,25 +11,32 @@ CRGB leds[NUM_LEDS];
 void setLeds(String incomingString) {
   Serial.println(incomingString);
 
-  int strLength = incomingString.length() + 1;
-  char str[strLength] ;
-  incomingString.toCharArray(str, strLength);
+  int colorIndexStart = 0;
+  int colorIndexEnd = 0;
+  int hsvIndex = 0;
+  int hsv[3];
+  int ledIndex = 0;
 
-  char * command;
-  command = strtok(str, "#");
-  int index = -1;
-  while (command != NULL) {
-    Serial.println(command);
-    if (index != -1) {
-      char * hsv = strchr(command, ',');
-      Serial.println(hsv[0]);
-      Serial.println(hsv[1]);
-      Serial.println(hsv[2]);
+  for (int i = 0; incomingString[i] != 0; i++) {
+    if (incomingString[i] == ',') {
+      hsv[hsvIndex] = incomingString.substring(colorIndexStart, colorIndexEnd + 1).toInt();
+//      Serial.print(hsv[hsvIndex]);
+      hsvIndex++;
+      colorIndexStart = i + 1;
+    } else if (incomingString[i] == ':') {
+      hsv[hsvIndex] = incomingString.substring(colorIndexStart, colorIndexEnd + 1).toInt();
+//      Serial.println(hsv[hsvIndex]);
+      hsvIndex = 0;
+      colorIndexStart = i + 1;
+      if (ledIndex <= NUM_LEDS) {
+        leds[ledIndex] = CHSV(hsv[0], hsv[1], hsv[2]);
+      }
+      ledIndex++;
+    } else {
+      colorIndexEnd = i;
     }
-    command = strtok(NULL, ":");
-    index++;
-  }
-
+  };
+  FastLED.show();
 }
 
 void setup() {
@@ -43,10 +50,8 @@ void setup() {
 }
 
 void loop() {
-
   if (HC05Module.available() > 0)
     setLeds(HC05Module.readString());
-
 
   if (Serial.available())
     HC05Module.write(Serial.read());
