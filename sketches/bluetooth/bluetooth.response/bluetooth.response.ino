@@ -1,7 +1,5 @@
 #include <SoftwareSerial.h>
 
-char incomingString;
-
 SoftwareSerial HC05Module(10, 11); // TXD | RXD
 
 void setup() {
@@ -14,10 +12,9 @@ void setup() {
 void loop() {
   // Feed any data from bluetooth to Terminal.
   if (HC05Module.available()){
-    incomingString = HC05Module.read();
-    Serial.print(incomingString);
-    HC05Module.print(incomingString);
+    Serial.println(HC05Module.readString());
   }
+  
   // Feed all data from termial to bluetooth
   if (Serial.available())
     HC05Module.write(Serial.read());
