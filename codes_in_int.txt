@@ -1,8 +1,10 @@
+NL & CR | NL & CR | NL & CR | NL & CR | NL & CR | NL & CR | NL & CR | NL & CR | 
 CONNECT = 17550
 START = 9210
 STOP = 5840
 END = 2930
 
+SHOW = 5930
 TERNOFF = 17240
 TERNON = 13210
 
@@ -19,4 +21,33 @@ COLUMNS = 18530
 ROWS = 6040
 
 RAINBOW = 17970
+
+# # # # # # # # # # # # # # # # # # # # # # # # 
+CONNECT = 15840
+START = 7960
+STOP = 
+END = 2140
+
+SHOW = 4910
+READ = 4030
+
+TERNOFF = 
+TERNON = 
+
+ANIMATION = 
+GALLERY = 
+
+PICTURE = 16230
+LINE = 4360
+PIXEL = 
+COLOR = 
+SHINY = 8080
+SHINING = 
+COLUMNS = 
+ROWS = 
+
+RAINBOW = 
+
+OFF = 2100
+ON = 780
 
